@@ -1,13 +1,13 @@
 import datetime
 from flask import Flask, request, render_template, g
-from peewee import SqliteDatabase, Model, CharField, TextField, DateTimeField, OperationalError
+from peewee import PostgresqlDatabase, Model, CharField, TextField, DateTimeField, OperationalError
 
 ## CONFIG
-DATABASE = 'peewee.db'
-DEBUG = True
+DEBUG = False
 
 ## MODEL
 database = SqliteDatabase(DATABASE)
+psql_db = PostgresqlDatabase('test', user='postgres', host="postgres")
 
 
 class Comment(Model):
@@ -17,8 +17,7 @@ class Comment(Model):
     author = CharField()
 
     class Meta:
-        database = database
-
+        database = psql_db
 
 ## APP
 app = Flask(__name__)
@@ -26,7 +25,7 @@ app.config.from_object(__name__)
 
 @app.before_request
 def before_request():
-	g.db = database
+	g.db = psql_db
 	g.db.connect()
 
 @app.after_request

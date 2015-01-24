@@ -1,28 +1,14 @@
-####################
-## DATA CONTAINER ##
-####################
-datacontainer:
-    build: .
-    command: echo datacontainer
-    volumes:
-        - /app
-        - /var/log/nginx
-        - /var/lib/postgresql/data
-        - /var/log
-        - /app
-
 ######################
 ## PYTHON CONTAINER ##
 ######################
 python:
     restart: always
-    image: barrachri/python
+    build: .
     expose:
         - "8080"
     links:
         - postgres:postgres
-    volumes_from:
-        - datacontainer
+    working_dir: /app
     command: /usr/local/bin/gunicorn -w 2 app:app
 
 
@@ -45,5 +31,3 @@ postgres:
     image: postgres
     expose:
         - "5432
-    volumes_from:
-        - datacontainer
