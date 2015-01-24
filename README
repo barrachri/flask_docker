@@ -1,1 +1,3 @@
 This is a simple flask app with docker, nginx and postgres
+
+docker-compose --file build.yml up -d
