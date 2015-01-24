@@ -1,0 +1,77 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flask app</title>
+    <link rel="stylesheet" href="/static/css/foundation.css" />
+    <script src="/static/js/vendor/modernizr.js"></script>
+  </head>
+  <body>
+
+    <div class="row">
+      <div class="large-12 columns">
+        <h1>Welcome to Flask</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-8 medium-8 columns">
+        <!-- Grid Example -->
+
+        <h5>Write something !</h5>
+        <form action="." method="POST">
+                  <div class="row">
+                    <div class="large-12 columns">
+                      <label>Title</label>
+                      <input name="title" type="text" placeholder="Insert comment title" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="large-4 medium-4 columns">
+                      <label>Author</label>
+                      <input name="author" type="text" placeholder="Your name" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="large-12 columns">
+                      <label>Message</label>
+                      <textarea name="text" placeholder="Comment body"></textarea>
+                    </div>
+                  </div>
+                  <input type="submit" value="Submit">
+                </form>
+      </div>
+    </div>
+
+
+
+    <div class="row">
+
+    <div class="large-8 medium-8 columns">
+    {% for comment in comments %}
+       <hr />
+        <h3>{{comment.id}} - {{comment.title}}</h3>
+        <h5>{{comment.author}} - {{comment.date}}</h5>
+        <!-- Grid Example -->
+        <div class="row">
+          <div class="large-12 columns">
+            <div class="callout panel">
+              <p>{{comment.body}}</p>
+            </div>
+          </div>
+        </div>
+
+ {% endfor %}
+    </div>
+
+
+    </div>
+
+    <script src="/static/js/vendor/jquery.js"></script>
+    <script src="/static/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

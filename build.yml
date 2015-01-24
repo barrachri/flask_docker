@@ -1,0 +1,49 @@
+####################
+## DATA CONTAINER ##
+####################
+datacontainer:
+    build: .
+    command: echo datacontainer
+    volumes:
+        - /app
+        - /var/log/nginx
+        - /var/lib/postgresql/data
+        - /var/log
+        - /app
+
+######################
+## PYTHON CONTAINER ##
+######################
+python:
+    restart: always
+    image: barrachri/python
+    expose:
+        - "8080"
+    links:
+        - postgres:postgres
+    volumes_from:
+        - datacontainer
+    command: /usr/local/bin/gunicorn -w 2 app:app
+
+
+#####################
+## NGINX CONTAINER ##
+#####################
+nginx:
+    restart: always
+    build: ./nginx/
+    ports:
+        - "80:80"
+    links:
+        - python:python
+
+####################
+## POSTGRES CONTAINER ##
+####################
+postgres:
+    restart: always
+    image: postgres
+    expose:
+        - "5432
+    volumes_from:
+        - datacontainer
