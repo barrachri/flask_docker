@@ -11,7 +11,6 @@ python:
     working_dir: /app
     command: /usr/local/bin/gunicorn -w 2 app:app
 
-
 #####################
 ## NGINX CONTAINER ##
 #####################
@@ -20,6 +19,8 @@ nginx:
     build: ./nginx/
     ports:
         - "80:80"
+    volumes:
+        - static/:/www/static
     links:
         - python:python
 
@@ -30,4 +31,4 @@ postgres:
     restart: always
     image: postgres
     expose:
-        - "5432
+        - "5432"

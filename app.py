@@ -1,14 +1,28 @@
 import datetime
 from flask import Flask, request, render_template, g
 from peewee import PostgresqlDatabase, Model, CharField, TextField, DateTimeField, OperationalError
+import psycopg2
 
 ## CONFIG
 DEBUG = False
 
-## MODEL
-database = SqliteDatabase(DATABASE)
-psql_db = PostgresqlDatabase('test', user='postgres', host="postgres")
+## MODELS
+user = 'postgres'
+host = 'postgres'
+database = 'test'
 
+# Check if database already exists
+try:
+	con = psycopg2.connect(host=host, user=user, database=database)
+	con.set_isolation(0)
+	cur = con.cursor()
+	cur.execute('CREATE DATABASE %s' database)
+except psycopg2.ProgrammingError as error:
+	print(error)
+	print("Database already exists")
+
+database = SqliteDatabase(DATABASE)
+psql_db = PostgresqlDatabase(database, user=user, host=host)
 
 class Comment(Model):
     title = CharField()
