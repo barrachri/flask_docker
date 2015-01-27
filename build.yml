@@ -9,7 +9,7 @@ python:
     links:
         - postgres:postgres
     volumes:
-        - ./:/app
+        - /app
     working_dir: /app
     command: /usr/local/bin/gunicorn -w 2 app:app
 
