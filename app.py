@@ -9,7 +9,7 @@ DEBUG = False
 ## MODELS
 user = 'postgres'
 host = 'postgres'
-database = 'test'
+database = 'flask_app'
 
 # Check if database already exists
 try:
