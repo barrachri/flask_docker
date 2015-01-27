@@ -14,7 +14,7 @@ database = 'test'
 # Check if database already exists
 try:
 	con = psycopg2.connect(host=host, user=user, database="postgres")
-	con.set_isolation(0)
+	con.set_isolation_level(0)
 	cur = con.cursor()
 	cur.execute('CREATE DATABASE %s' % database)
 except psycopg2.ProgrammingError as error:
