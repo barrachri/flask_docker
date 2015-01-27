@@ -12,14 +12,13 @@ host = 'postgres'
 database = 'flask_app'
 
 # Check if database already exists
-try:
 	con = psycopg2.connect(host=host, user=user, database="postgres")
 	con.set_isolation_level(0)
 	cur = con.cursor()
-	cur.execute('CREATE DATABASE %s' % database)
-except psycopg2.ProgrammingError as error:
-	print(error)
-	print("Database already exists")
+	cur.execute("select exists(select * from information_schema.tables where table_catalog='%s)" % database)
+	if not cur.fetchone()[0]:
+		cur.execute('CREATE DATABASE %s' % database)
+	cur.close()
 
 #database = SqliteDatabase(DATABASE)
 psql_db = PostgresqlDatabase(database, user=user, host=host)
