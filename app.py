@@ -22,14 +22,6 @@ except psycopg2.ProgrammingError as error:
 finally:
 	cur.close()
 
-
-print("Database already exists")
-
-An alternative using EXISTS is better in that it doesn't require that all rows be retrieved, but merely that at least one such row exists:
-
->>> cur.execute("select exists(select * from information_schema.tables where table_name=%s)", ('mytable',))
->>> cur.fetchone()[0]
-
 #database = SqliteDatabase(DATABASE)
 psql_db = PostgresqlDatabase(database, user=user, host=host)
 
