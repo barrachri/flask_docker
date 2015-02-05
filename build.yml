@@ -5,7 +5,7 @@ python:
     restart: always
     build: .
     expose:
-        - "8080"
+        - "8000"
     links:
         - postgres:postgres
     volumes:

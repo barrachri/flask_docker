@@ -55,6 +55,7 @@ def index():
     return render_template('index.html', comments=comments)
 
 if __name__ == '__main__':
+
 	# Check if database already exists
 	try:
 		con = psycopg2.connect(host=host, user=user, database="postgres")
@@ -65,6 +66,7 @@ if __name__ == '__main__':
 		print("Database already exists")
 	finally:
 		cur.close()
+
 	try:
 		Comment.create_table()
 	except OperationalError:
