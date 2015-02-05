@@ -1,6 +1,6 @@
 import datetime
 from flask import Flask, request, render_template, g
-from peewee import SqliteDatabase, PostgresqlDatabase, Model, CharField, TextField, DateTimeField, OperationalError
+from peewee import SqliteDatabase, PostgresqlDatabase, Model, CharField, TextField, DateTimeField, OperationalError, ProgrammingError
 import psycopg2
 
 ## CONFIG
@@ -54,21 +54,20 @@ def index():
     comments = Comment.select().order_by(Comment.date.desc())
     return render_template('index.html', comments=comments)
 
+# Check if database already exists
+try:
+	con = psycopg2.connect(host=host, user=user, database="postgres")
+	con.set_isolation_level(0)
+	cur = con.cursor()
+	cur.execute('CREATE DATABASE %s' % database)
+except psycopg2.ProgrammingError as error:
+	print("Database already exists")
+finally:
+	cur.close()
+
+try:
+	Comment.create_table()
+except (OperationalError, ProgrammingError):
+	print("Comment table already exists!")
 if __name__ == '__main__':
-
-	# Check if database already exists
-	try:
-		con = psycopg2.connect(host=host, user=user, database="postgres")
-		con.set_isolation_level(0)
-		cur = con.cursor()
-		cur.execute('CREATE DATABASE %s' % database)
-	except psycopg2.ProgrammingError as error:
-		print("Database already exists")
-	finally:
-		cur.close()
-
-	try:
-		Comment.create_table()
-	except OperationalError:
-		print("Comment table already exists!")
 	app.run()
