@@ -9,7 +9,7 @@ DEBUG = False
 ## MODELS
 user = 'postgres'
 host = 'postgres'
-database = 'flask_app'
+database = 'postgres'
 
 #database = SqliteDatabase(DATABASE)
 psql_db = PostgresqlDatabase(database, user=user, host=host)
