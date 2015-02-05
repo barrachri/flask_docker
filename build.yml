@@ -21,7 +21,7 @@ nginx:
     ports:
         - "80:80"
     volumes:
-        - static/:/www/static
+        - /www/static
     links:
         - python:python
 
