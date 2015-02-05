@@ -10,7 +10,7 @@ python:
         - postgres:postgres
     volumes:
         - /usr/src/app
-    command: /usr/local/bin/gunicorn -w 2 app:app
+    command: /usr/local/bin/gunicorn -w 2 -b :8000 app:app
 
 #####################
 ## NGINX CONTAINER ##
