@@ -12,13 +12,23 @@ host = 'postgres'
 database = 'flask_app'
 
 # Check if database already exists
+try:
 	con = psycopg2.connect(host=host, user=user, database="postgres")
 	con.set_isolation_level(0)
 	cur = con.cursor()
-	cur.execute("select exists(select * from information_schema.tables where table_catalog='%s)" % database)
-	if not cur.fetchone()[0]:
-		cur.execute('CREATE DATABASE %s' % database)
+	cur.execute('CREATE DATABASE %s' % database)
+except psycopg2.ProgrammingError as error:
+	print("Database already exists")
+finally:
 	cur.close()
+
+
+print("Database already exists")
+
+An alternative using EXISTS is better in that it doesn't require that all rows be retrieved, but merely that at least one such row exists:
+
+>>> cur.execute("select exists(select * from information_schema.tables where table_name=%s)", ('mytable',))
+>>> cur.fetchone()[0]
 
 #database = SqliteDatabase(DATABASE)
 psql_db = PostgresqlDatabase(database, user=user, host=host)
