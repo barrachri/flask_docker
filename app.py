@@ -1,7 +1,6 @@
 import datetime
 from flask import Flask, request, render_template, g
-from peewee import SqliteDatabase, PostgresqlDatabase, Model, CharField, TextField, DateTimeField, OperationalError, ProgrammingError
-import psycopg2
+from peewee import PostgresqlDatabase, Model, CharField, TextField, DateTimeField, OperationalError, ProgrammingError
 
 ## CONFIG
 DEBUG = False
@@ -11,7 +10,6 @@ user = 'postgres'
 host = 'postgres'
 database = 'postgres'
 
-#database = SqliteDatabase(DATABASE)
 psql_db = PostgresqlDatabase(database, user=user, host=host)
 
 class Comment(Model):
@@ -58,7 +56,6 @@ def index():
 
     comments = Comment.select().order_by(Comment.date.desc())
     return render_template('index.html', comments=comments)
-
 
 if __name__ == '__main__':
 	app.run()
